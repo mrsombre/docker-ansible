@@ -1,0 +1,14 @@
+---
+
+- hosts: "all"
+
+  tasks:
+    - name: Server Info
+      debug: var=info
+      vars:
+        info:
+          - "      OS: {{ ansible_distribution }} {{ ansible_distribution_major_version }}"
+          - "Hostname: {{ ansible_hostname }}"
+          - "    FQDN: {{ ansible_fqdn }}"
+          - "    IPv4: {{ ansible_default_ipv4.address|default('') }}"
+          - "    IPv6: {{ ansible_default_ipv6.address|default('') }}"

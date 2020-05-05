@@ -1,26 +1,21 @@
 
-# Docker: Ansible
+# Ansible
 
 ## Description
 
-This is a docker image with ansible based on alpine linux
+This image as based on the Python 3.8 slim. Execution of ansible and ansible-playbook commands as ansible user, SSH key can be built-in into /home/ansible/.ssh.  
+More information on the Ansible website https://ansible.com
 
-## How to use
+## How to use this image
 
-### As base image
+### As part of Ansible project
 
-Dockerfile:
-```dockerfile
-FROM mrsombre/ansible:latest
-```
+Check [example](https://github.com/mrsombre/docker-ansible/blob/master/example) folder.
 
-### Ad-hoc commands
+### Ad-hoc commands and testing environments
+
 ```bash
-# show version
-docker run --rm -it mrsombre/ansible
-
-# test connection to a remote server using login/password
-docker run --rm -it mrsombre/ansible \
-  ansible all -m raw -a 'uname -a' \
-  -u root -k -i '10.52.x.x,'
+docker pull mrsombre/ansible
+# test connection to a remote server using login / password (change <Server IP> to a real IP)
+docker run --rm -it mrsombre/ansible ansible all -u root -k -m raw -a 'uname -a' -i '<Server IP>,'
 ```

@@ -1,45 +1,30 @@
-
-FROM alpine:3.11.6
+FROM python:3.8.2-slim
 
 RUN set -eux; \
-    apk add --no-cache \
-      su-exec \
-      ca-certificates \
-      openssh-client \
+    apt-get update && apt-get install -y \
+      gosu \
       sshpass \
     ; \
-    apk add --no-cache python3; \
-    python3 -V; \
-    \
-    apk add --no-cache --virtual build \
-      build-base \
-      python3-dev \
-      libffi-dev \
-      openssl-dev \
-    ; \
-    pip3 install --upgrade pip; \
-    pip3 install --upgrade cffi setuptools; \
+    rm -rf /var/lib/apt/lists/*
+
+ARG VERSION=2.9.7
+RUN set -eux; \
+    pip3 install --upgrade pip setuptools wheel; \
     pip3 install --upgrade \
-      ansible==2.5.5 \
+      ansible==${VERSION} \
       pywinrm \
     ; \
-    ansible --version; \
-    \
-    python3 -m pip uninstall cffi setuptools pip -y; \
-    rm -rf /usr/lib/python3*/ensurepip; \
-    apk del build
+    rm -rf /root/.cache
 
 # add ansible user and mount point
-RUN set -ex; \
-    addgroup -S ansible \
-      && adduser -D -g '' -s /sbin/nologin -G ansible -S ansible; \
-    \
-    mkdir -p /home/ansible/.ssh \
-      && echo -e 'Host *\n  LogLevel ERROR\n  StrictHostKeyChecking no' > /home/ansible/.ssh/config \
-      && chown ansible:ansible -R /home/ansible; \
-    \
-    mkdir -p /opt/ansible \
-      && chown ansible:ansible /opt/ansible
+ARG TESTER_UID=2000
+ARG TESTER_GID=2000
+RUN set -eux; \
+    groupadd -g ${TESTER_GID} -r ansible \
+      && useradd -u ${TESTER_UID} -r -m -g ansible ansible; \
+   mkdir -p /home/ansible/.ssh \
+      && echo 'Host *\n  LogLevel ERROR\n  StrictHostKeyChecking no' | tee /home/ansible/.ssh/config \
+      && chown ansible:ansible -R /home/ansible
 
 WORKDIR /opt/ansible
 
