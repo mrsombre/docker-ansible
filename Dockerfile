@@ -1,4 +1,4 @@
-FROM python:3.8.2-slim
+FROM python:3.8.3-slim
 
 RUN set -eux; \
     apt-get update && apt-get install -y \
@@ -7,7 +7,7 @@ RUN set -eux; \
     ; \
     rm -rf /var/lib/apt/lists/*
 
-ARG VERSION=2.9.7
+ARG VERSION=2.9.9
 RUN set -eux; \
     pip3 install --upgrade pip setuptools wheel; \
     pip3 install --upgrade \
@@ -32,3 +32,6 @@ WORKDIR /opt/ansible
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["ansible", "--version"]
+
+LABEL image.name="mrsombre/ansible" \
+      image.scm-url="https://github.com/mrsombre/docker-ansible"
