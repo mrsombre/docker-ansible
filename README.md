@@ -7,12 +7,13 @@ More information on the Ansible website https://ansible.com/.
 
 ## Latest versions
 
+- `3.1.0` `3.1`
 - `2.9.9` `2.9`
-- `2.8.11` `2.8`
-- `2.7.17` `2.7`
 
 ## Deprecated versions
 
+- `2.8.11` `2.8`
+- `2.7.17` `2.7`
 - `2.6.20` `2.6`
 - `2.5.15` `2.5`
 
@@ -20,7 +21,7 @@ More information on the Ansible website https://ansible.com/.
 
 ### As part of an Ansible project
 
-Check this [example](https://github.com/mrsombre/docker-ansible/blob/master/example) as docker-compose usage.
+Check this [example](./example) as docker-compose usage.
 
 ### Ad-hoc commands and testing environments
 

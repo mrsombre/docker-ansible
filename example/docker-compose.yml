@@ -1,7 +1,8 @@
-version: "3.7"
+version: '3.8'
 
 services:
-  ansible:
-    build: .
+  cmd:
+    image: mrsombre/ansible
     volumes:
-      - "./:/opt/ansible"
+      - ~/.ssh:/home/ansible/.ssh:ro
+      - ./:/opt/ansible

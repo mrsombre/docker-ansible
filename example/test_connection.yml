@@ -3,7 +3,7 @@
 - hosts: "all"
 
   tasks:
-    - name: Server Info
+    - name: "Server Info"
       debug: var=info
       vars:
         info:
